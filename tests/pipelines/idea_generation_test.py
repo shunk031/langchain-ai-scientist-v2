@@ -9,6 +9,10 @@ from ai_scientist_v2.pipelines import (
     run_idea_generation_pipeline,
 )
 from ai_scientist_v2.pipelines.idea_generation import Idea
+from ai_scientist_v2.pipelines.idea_generation.utils import (
+    load_ideas,
+    load_workshop_description,
+)
 
 
 @pytest.fixture
@@ -28,16 +32,12 @@ def workshop_description_file(test_fixtures_dir: pathlib.Path) -> pathlib.Path:
 
 @pytest.fixture
 def ideas(ideas_file: pathlib.Path) -> List[Dict[str, str]]:
-    with open(ideas_file, "r") as f:
-        ideas = [json.loads(line) for line in f]
-    return ideas
+    return load_ideas(ideas_file)
 
 
 @pytest.fixture
 def workshop_description(workshop_description_file: pathlib.Path):
-    with open(workshop_description_file, "r") as f:
-        workshop_description = f.read()
-    return workshop_description
+    return load_workshop_description(workshop_description_file)
 
 
 @pytest.fixture
@@ -50,17 +50,18 @@ def idea_reflection_model_name() -> str:
     return "openai:gpt-4o"
 
 
-def test_create_idea_generation_pipeline():
+def test_create_idea_generation_pipeline(root_dir: pathlib.Path):
     import io
 
+    from langchain_core.runnables.graph import CurveStyle
     from PIL import Image
 
     graph = create_idea_generation_pipeline()
 
     image = Image.open(
-        io.BytesIO(graph.get_graph().draw_mermaid_png()),
+        io.BytesIO(graph.get_graph().draw_mermaid_png(curve_style=CurveStyle.LINEAR)),
     )
-    image.save("graph.png")
+    image.save(root_dir / ".github" / "assets" / "graph-idea-generation.png")
 
 
 def test_run_idea_generation(

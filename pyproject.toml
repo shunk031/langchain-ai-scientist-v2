@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 authors = [
-    { name = "Shunsuke KITADA", email = "shunsuke.kitada.0831@gmail.com" }
+    { name = "Shunsuke KITADA", email = "shunsuke.kitada.0831@gmail.com" },
 ]
 requires-python = ">=3.11"
 dependencies = [
@@ -23,11 +23,10 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [dependency-groups]
-dev = [
-    "mypy>=1.0.0",
-    "pytest>=6.0.0",
-    "ruff>=0.1.5",
-]
+dev = ["mypy>=1.0.0", "pytest>=6.0.0", "ruff>=0.1.5"]
+
+[project.scripts]
+ai-scientist-v2 = "ai_scientist_v2.cli:run"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/ai_scientist_v2"]

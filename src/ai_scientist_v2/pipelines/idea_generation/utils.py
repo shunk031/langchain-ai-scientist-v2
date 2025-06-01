@@ -1,7 +1,29 @@
 import json
+import pathlib
 from typing import Dict, List, Optional, Union
 
 from langchain_core.messages import AnyMessage, ToolMessage
+from loguru import logger
+
+
+def load_ideas(ideas_file: pathlib.Path):
+    """
+    Load ideas from a JSONL file.
+    """
+    logger.debug(f"Loading ideas from {ideas_file}")
+    with open(ideas_file, "r") as f:
+        ideas = [json.loads(line) for line in f]
+    return ideas
+
+
+def load_workshop_description(workshop_file: pathlib.Path) -> str:
+    """
+    Load the workshop description from a markdown file.
+    """
+    logger.debug(f"Loading workshop description from {workshop_file}")
+    with open(workshop_file, "r") as f:
+        workshop_description = f.read()
+    return workshop_description
 
 
 def jsonl_to_prompt_string(jsonl: List[Dict[str, Union[str, List[str]]]]) -> str:
