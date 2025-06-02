@@ -1,0 +1,71 @@
+# path to the task data directory
+data_dir: "/test/data"
+log_dir: "/test/logs"
+workspace_dir: "/test/workspace"
+
+goal: "test goal"
+eval_option: "test eval"
+
+is_processed_data: true
+is_copy_data: true
+
+exp_name: "test_exp"
+
+# settings for code execution
+code_exec:
+  timeout: 1800
+  agent_file_name: "test_agent.py"
+  format_tb_ipython: true
+
+# LLM settings for final report from journal
+report:
+  model_name: "test-model"
+  temperature: 0.8
+
+experiment:
+  num_syn_datasets: 2
+
+debug:
+  stage4: true
+
+# agent hyperparams
+agent:
+  agent_type: "sequential"
+  num_workers: 2
+  stages:
+    stage1_max_iters: 10
+    stage2_max_iters: 8
+    stage3_max_iters: 6
+    stage4_max_iters: 4
+  # how many improvement iterations to run
+  steps: 3
+  # whether to instruct the agent to use CV (set to 1 to disable)
+  k_fold_validation: 2
+  multi_seed_eval:
+    num_seeds: 2
+  # whether to instruct the agent to generate a prediction function
+  expose_prediction: true
+  # whether to provide the agent with a preview of the data
+  data_preview: true
+
+  # LLM settings for coding
+  code:
+    model_name: "test-code-model"
+    temperature: 0.7
+    max_tokens: 6000
+
+  # LLM settings for evaluating program output / tracebacks
+  feedback:
+    model_name: "test-feedback-model"
+    templerature: 0.3
+    max_tokens: 4000
+
+  vlm_feedback:
+    model_name: "test-vlm-model"
+    temperature: 0.4
+    max_tokens: 5000
+
+  search:
+    max_debug_depth: 2
+    debug_proba: 0.3
+    num_drafts: 2

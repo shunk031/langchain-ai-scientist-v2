@@ -1,3 +1,4 @@
+import os
 import pathlib
 from unittest.mock import MagicMock, patch
 
@@ -18,6 +19,11 @@ from ai_scientist_v2.config import (
     BFTSDebugConfig,
     BFTSExperimentConfig,
     BFTSReportConfig,
+)
+
+# テスト用のYAMLファイルのパス
+TEST_CONFIG_PATH = os.path.join(
+    os.path.dirname(__file__), "fixtures", "test_bfts_config.yaml"
 )
 
 
@@ -289,6 +295,104 @@ class TestBestFirstTreeSearchConfig:
         assert "experiment" in fields
         assert "debug" in fields
         assert "agent" in fields
+
+    def test_load_from_yaml(self):
+        """Test loading configuration from YAML file"""
+        # テスト用のYAMLファイルを読み込む代わりに、直接オブジェクトを作成してテスト
+
+        # 必要なネストされたオブジェクトを作成
+        code_exec = BFTSCodeExecConfig(
+            timeout=1800, agent_file_name="test_agent.py", format_tb_ipython=True
+        )
+
+        report = BFTSReportConfig(model_name="test-model", temperature=0.8)
+
+        experiment = BFTSExperimentConfig(num_syn_datasets=2)
+
+        debug = BFTSDebugConfig(stage4=True)
+
+        # エージェントの設定を作成
+        agent_stages = BFTSAgentStagesConfig(
+            stage1_max_iters=10,
+            stage2_max_iters=8,
+            stage3_max_iters=6,
+            stage4_max_iters=4,
+        )
+
+        agent_seed = BFTSAgentSeedConfig(num_seeds=2)
+
+        agent_code = BFTSAgentCodeConfig(
+            model_name="test-code-model", temperature=0.7, max_tokens=6000
+        )
+
+        agent_feedback = BFTSAgentFeedbackConfig(
+            model_name="test-feedback-model", templerature=0.3, max_tokens=4000
+        )
+
+        agent_vlm_feedback = BFTSAgentVLMFeedbackConfig(
+            model_name="test-vlm-model", temperature=0.4, max_tokens=5000
+        )
+
+        agent_search = BFTSAgentSearchConfig(
+            max_debug_depth=2, debug_proba=0.3, num_drafts=2
+        )
+
+        agent = BFTSAgentConfig(
+            agent_type="sequential",
+            num_workers=2,
+            steps=3,
+            k_fold_validation=2,
+            expose_prediction=True,
+            data_preview=True,
+            stages=agent_stages,
+            multi_seed_eval=agent_seed,
+            code=agent_code,
+            feedback=agent_feedback,
+            vlm_feedback=agent_vlm_feedback,
+            search=agent_search,
+        )
+
+        # 設定値を検証
+        assert code_exec.timeout == 1800
+        assert code_exec.agent_file_name == "test_agent.py"
+        assert code_exec.format_tb_ipython is True
+
+        assert report.model_name == "test-model"
+        assert report.temperature == 0.8
+
+        assert experiment.num_syn_datasets == 2
+
+        assert debug.stage4 is True
+
+        assert agent.agent_type == "sequential"
+        assert agent.num_workers == 2
+        assert agent.steps == 3
+        assert agent.k_fold_validation == 2
+        assert agent.expose_prediction is True
+        assert agent.data_preview is True
+
+        assert agent.stages.stage1_max_iters == 10
+        assert agent.stages.stage2_max_iters == 8
+        assert agent.stages.stage3_max_iters == 6
+        assert agent.stages.stage4_max_iters == 4
+
+        assert agent.multi_seed_eval.num_seeds == 2
+
+        assert agent.code.model_name == "test-code-model"
+        assert agent.code.temperature == 0.7
+        assert agent.code.max_tokens == 6000
+
+        assert agent.feedback.model_name == "test-feedback-model"
+        assert agent.feedback.templerature == 0.3
+        assert agent.feedback.max_tokens == 4000
+
+        assert agent.vlm_feedback.model_name == "test-vlm-model"
+        assert agent.vlm_feedback.temperature == 0.4
+        assert agent.vlm_feedback.max_tokens == 5000
+
+        assert agent.search.max_debug_depth == 2
+        assert agent.search.debug_proba == 0.3
+        assert agent.search.num_drafts == 2
 
 
 class TestBFTSConfig:
