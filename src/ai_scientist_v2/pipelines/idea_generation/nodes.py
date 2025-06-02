@@ -90,7 +90,7 @@ If you finalize your idea, please output your idea in the following format.
 
 ```json
 {{
-    "name: "...",
+    "name": "...",
     "title": "...",
     "short_hypothesis": "...",
     "related_work": "...",
