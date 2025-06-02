@@ -1,5 +1,22 @@
 # LangChain / LangGraph version of the AI Scientist v2
 
+## Setup
+
+- Copy the example environment file to `.env`:
+
+```shell
+cp .env.example .env
+```
+
+- Set the required environment variables in the `.env` file.
+
+```
+OPENAI_API_KEY= ...     # If using OpenAI models, set your OpenAI API key here.
+LANGSMITH_TRACING= ...  # Optional
+LANGSMITH_ENDPOINT= ... # Optional
+LANGSMITH_PROJECT= ...  # Optional
+LANGSMITH_API_KEY= ...  # Optional
+```
 
 
 <table>
