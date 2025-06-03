@@ -1,4 +1,4 @@
-from typing import cast
+from typing import Dict, List, Union
 
 from langgraph.graph import END, START, StateGraph
 
@@ -20,7 +20,6 @@ def create_idea_generation_pipeline():
         .add_edge(start_key=START, end_key="idea-generation")
         .add_edge(start_key="idea-generation", end_key="idea-reflection")
         .add_conditional_edges("idea-reflection", path=should_continue)
-        # .add_edge(start_key="idea-reflection", end_key="idea-finalization")
         .add_edge(start_key="idea-finalization", end_key=END)
         .compile()
     )
@@ -28,7 +27,7 @@ def create_idea_generation_pipeline():
 
 
 def run_idea_generation_pipeline(
-    ideas,
+    ideas: List[Dict[str, Union[str, List[str]]]],
     workshop_description: str,
     idea_generation_model_name: str,
     idea_reflection_model_name: str,
@@ -36,23 +35,20 @@ def run_idea_generation_pipeline(
     current_round: int = 0,
 ) -> IdeaGenerationState:
     graph = create_idea_generation_pipeline()
-
-    return cast(
-        IdeaGenerationState,
-        graph.invoke(
-            {
+    output = graph.invoke(
+        {
+            "current_round": current_round,
+        },
+        config={
+            "configurable": {
+                "thread_id": "run-idea-generation-pipeline",
+                "workshop_description": workshop_description,
                 "prev_ideas": ideas,
-                "current_round": current_round,
-            },
-            config={
-                "configurable": {
-                    "thread_id": "run-idea-generation-pipeline",
-                    "workshop_description": workshop_description,
-                    "prev_ideas": ideas,
-                    "max_reflections": max_reflections,
-                    "idea_generation_model_name": idea_generation_model_name,
-                    "idea_reflection_model_name": idea_reflection_model_name,
-                }
-            },
-        ),
+                "max_reflections": max_reflections,
+                "idea_generation_model_name": idea_generation_model_name,
+                "idea_reflection_model_name": idea_reflection_model_name,
+            }
+        },
     )
+    assert isinstance(output, IdeaGenerationState)
+    return output

@@ -115,21 +115,21 @@ class TestBFTSAgentFeedbackConfig:
         """Test that BFTSAgentFeedbackConfig has correct default values"""
         config = BFTSAgentFeedbackConfig()
         assert config.model_name == "gpt-4o"
-        assert config.templerature == 0.5  # Note: There's a typo in the field name
+        assert config.temperature == 0.5  # Note: There's a typo in the field name
         assert config.max_tokens == 8192
 
     def test_temperature_validation(self):
         """Test that temperature is validated to be between 0.0 and 1.0"""
         # Valid values
-        assert BFTSAgentFeedbackConfig(templerature=0.0).templerature == 0.0
-        assert BFTSAgentFeedbackConfig(templerature=0.5).templerature == 0.5
-        assert BFTSAgentFeedbackConfig(templerature=1.0).templerature == 1.0
+        assert BFTSAgentFeedbackConfig(temperature=0.0).temperature == 0.0
+        assert BFTSAgentFeedbackConfig(temperature=0.5).temperature == 0.5
+        assert BFTSAgentFeedbackConfig(temperature=1.0).temperature == 1.0
 
         # Invalid values
         with pytest.raises(ValidationError):
-            BFTSAgentFeedbackConfig(templerature=-0.1)
+            BFTSAgentFeedbackConfig(temperature=-0.1)
         with pytest.raises(ValidationError):
-            BFTSAgentFeedbackConfig(templerature=1.1)
+            BFTSAgentFeedbackConfig(temperature=1.1)
 
 
 class TestBFTSAgentVLMFeedbackConfig:
@@ -198,7 +198,7 @@ class TestBFTSAgentConfig:
         # Test feedback config
         assert isinstance(config.feedback, BFTSAgentFeedbackConfig)
         assert config.feedback.model_name == "gpt-4o"
-        assert config.feedback.templerature == 0.5
+        assert config.feedback.temperature == 0.5
         assert config.feedback.max_tokens == 8192
 
         # Test vlm_feedback config
@@ -326,7 +326,7 @@ class TestBestFirstTreeSearchConfig:
         )
 
         agent_feedback = BFTSAgentFeedbackConfig(
-            model_name="test-feedback-model", templerature=0.3, max_tokens=4000
+            model_name="test-feedback-model", temperature=0.3, max_tokens=4000
         )
 
         agent_vlm_feedback = BFTSAgentVLMFeedbackConfig(
@@ -383,7 +383,7 @@ class TestBestFirstTreeSearchConfig:
         assert agent.code.max_tokens == 6000
 
         assert agent.feedback.model_name == "test-feedback-model"
-        assert agent.feedback.templerature == 0.3
+        assert agent.feedback.temperature == 0.3
         assert agent.feedback.max_tokens == 4000
 
         assert agent.vlm_feedback.model_name == "test-vlm-model"

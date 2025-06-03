@@ -18,6 +18,7 @@ LANGSMITH_PROJECT= ...  # Optional
 LANGSMITH_API_KEY= ...  # Optional
 ```
 
+## Pipelines
 
 <table>
 <thead>
@@ -30,7 +31,7 @@ LANGSMITH_API_KEY= ...  # Optional
 <tr>
 <td>
 
-## Research Idea Generation Pipeline
+### Research Idea Generation Pipeline
 
 ```shell
 OPENAI_API_KEY=xxxx uv run ai-scientist-v2 idea-generation \
@@ -49,7 +50,7 @@ OPENAI_API_KEY=xxxx uv run ai-scientist-v2 idea-generation \
 <tr>
 <td>
 
-## Paper Generation Experiments Pipeline
+### Paper Generation Experiments Pipeline
 
 ```shell
 OPENAI_API_KEY=xxxx uv run ai-scientist-v2 paper-generation-experiments \

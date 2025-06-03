@@ -50,7 +50,7 @@ class BFTSAgentCodeConfig(BaseModel):
 
 class BFTSAgentFeedbackConfig(BaseModel):
     model_name: str = "gpt-4o"
-    templerature: float = Field(default=0.5, ge=0.0, le=1.0)
+    temperature: float = Field(default=0.5, ge=0.0, le=1.0)
     max_tokens: int = 8192
 
 
@@ -164,6 +164,20 @@ class BestFirstTreeSearchConfig(BaseSettings):
     model_config = SettingsConfigDict(
         toml_file="config/best-first-tree-search.yaml",
     )
+
+    @property
+    def workspace_input_dir(self) -> pathlib.Path:
+        """Returns the input directory for the workspace."""
+        target_dir = self.workspace_dir / "input"
+        target_dir.mkdir(parents=True, exist_ok=True)
+        return target_dir
+
+    @property
+    def workspace_working_dir(self) -> pathlib.Path:
+        """Returns the working directory for the workspace."""
+        target_dir = self.workspace_dir / "working"
+        target_dir.mkdir(parents=True, exist_ok=True)
+        return target_dir
 
     @field_validator("data_dir", "log_dir", "workspace_dir", mode="before")
     @classmethod
