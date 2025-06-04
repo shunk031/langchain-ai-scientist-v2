@@ -13,8 +13,6 @@ from ai_scientist_v2.pipelines.tree_based_experimentation import (
     TreeBasedExperimentationState,
 )
 
-from . import AgentConfig
-
 SYSTEM_PROMPT: Final[str] = """\
 # Introduction
 You are an AI researcher setting up experiments.
@@ -69,6 +67,8 @@ Your json should contain only one metric.
 def define_global_metrics_node(
     state: TreeBasedExperimentationState, config: RunnableConfig
 ) -> TreeBasedExperimentationState:
+    from . import AgentConfig
+
     conf = AgentConfig.from_runnable_config(config)
 
     llm = init_chat_model(
