@@ -36,6 +36,10 @@ class TreeBasedExperimentationState(BaseModel):
 
     evaluation_metrics: Optional[EvaluationMetrics] = None
 
+    vlm_feedback: Optional[str] = None
+
+    datasets_successfully_tested: Optional[List[str]] = None
+
 
 class Stage(BaseModel):
     name: str
