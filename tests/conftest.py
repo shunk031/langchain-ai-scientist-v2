@@ -37,5 +37,10 @@ def ideas(ideas_file: pathlib.Path) -> List[Dict[str, str]]:
 
 
 @pytest.fixture
+def idea(ideas: List[Dict[str, str]]) -> Dict[str, str]:
+    return ideas[0]
+
+
+@pytest.fixture
 def workshop_description(workshop_description_file: pathlib.Path):
     return load_workshop_description(workshop_description_file)

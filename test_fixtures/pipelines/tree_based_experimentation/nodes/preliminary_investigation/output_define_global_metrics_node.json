@@ -1,0 +1,15 @@
+{
+    "messages": [],
+    "main_stage_name": "Initial Implementation",
+    "sub_stage_name": "Preliminary Investigation",
+    "sub_stage_num": 1,
+    "sub_stage_goals": "- Focus on getting basic working implementation\n- Use a simple dataset\n- Aim for basic functional correctness\n- If you are given \"Code To Use\", you can directly use it as a starting point.",
+    "code_to_use": "No code is provided for this stage.",
+    "evaluation_metrics": {
+        "name": "Compositional Generalization Accuracy",
+        "maximize": true,
+        "description": "Measures the percentage of correctly predicted outputs for novel combinations of components that were not seen during training. This metric evaluates how well the model can generalize its learned compositional structures to new, unseen examples, indicating its ability to perform systematic and human-like compositional reasoning."
+    },
+    "vlm_feedback": null,
+    "datasets_successfully_tested": null
+}

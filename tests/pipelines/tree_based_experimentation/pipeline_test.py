@@ -1,13 +1,7 @@
 import pathlib
-from typing import Dict, Final, List
+from typing import Dict, List
 
 import pytest
-from langchain.chat_models import init_chat_model
-from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_core.prompts import (
-    ChatPromptTemplate,
-    HumanMessagePromptTemplate,
-)
 
 from ai_scientist_v2.pipelines import (
     create_tree_based_experimentation_pipeline,
@@ -16,38 +10,8 @@ from ai_scientist_v2.pipelines import (
 
 
 @pytest.fixture
-def idea(ideas: List[Dict[str, str]]) -> Dict[str, str]:
-    return ideas[0]
-
-
-@pytest.fixture
-def global_metrics_definer_model_name() -> str:
-    return "openai:gpt-4o"
-
-
-@pytest.fixture
-def temperature() -> float:
-    return 1.0
-
-
-@pytest.fixture
-def main_stage_name() -> str:
-    return "Initial Implementation"
-
-
-@pytest.fixture
-def sub_stage_num() -> int:
-    return 1
-
-
-@pytest.fixture
-def sub_stage_name() -> str:
-    return "Preliminary Investigation"
-
-
-@pytest.fixture
 def code_to_use() -> str:
-    return """No code is provided for this stage."""
+    return "No code is provided for this stage."
 
 
 def test_create_tree_based_experimentation_pipeline(root_dir: pathlib.Path):

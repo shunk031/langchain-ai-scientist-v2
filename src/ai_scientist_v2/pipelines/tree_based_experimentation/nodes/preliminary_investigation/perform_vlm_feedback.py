@@ -14,8 +14,6 @@ from ai_scientist_v2.pipelines.tree_based_experimentation import (
     TreeBasedExperimentationState,
 )
 
-from . import AgentConfig
-
 SYSTEM_PROMPT: Final[str] = """\
 Evaluate if stage 2 (baseline tuning) is complete based on the following evidence:
 
@@ -42,6 +40,8 @@ Provide a detailed evaluation of completion status.
 def perform_vlm_feedback_node(
     state: TreeBasedExperimentationState, config: RunnableConfig
 ):
+    from . import AgentConfig
+
     conf = AgentConfig.from_runnable_config(config)
 
     llm = init_chat_model(

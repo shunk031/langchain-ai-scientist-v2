@@ -1,16 +1,16 @@
 # path to the task data directory
 data_dir: "data"
-preprocess_data: False
+is_preprocessed_data: False
 
 goal: null
-eval: null
+eval_option: null
 
 log_dir: logs
 workspace_dir: workspaces
 
 # whether to copy the data to the workspace directory (otherwise it will be symlinked)
 # copying is recommended to prevent the agent from accidentally modifying the original data
-copy_data: True
+is_copy_data: True
 
 exp_name: run # a random experiment name will be generated if not provided
 
@@ -22,7 +22,7 @@ code_exec:
 
 # LLM settings for final report from journal
 report:
-  model: gpt-4o-2024-11-20
+  model_name: gpt-4o-2024-11-20
   temp: 1.0
 
 experiment:
@@ -58,19 +58,20 @@ agent:
 
   # LLM settings for coding
   code:
-    model: anthropic.claude-3-5-sonnet-20241022-v2:0
+    # model_name: anthropic.claude-3-5-sonnet-20241022-v2:0
+    model_name: gpt-4o-2024-11-20
     temp: 1.0
     max_tokens: 12000
 
   # LLM settings for evaluating program output / tracebacks
   feedback:
-    model: gpt-4o-2024-11-20
+    model_name: gpt-4o-2024-11-20
     # gpt-4o
     temp: 0.5
     max_tokens: 8192
 
   vlm_feedback:
-    model: gpt-4o-2024-11-20
+    model_name: gpt-4o-2024-11-20
     temp: 0.5
     max_tokens: null
 

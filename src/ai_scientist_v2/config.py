@@ -24,7 +24,7 @@ class BFTSReportConfig(BaseModel):
 
 
 class BFTSExperimentConfig(BaseModel):
-    num_syn_datasets: int = 1
+    num_syn_datasets: int = Field(default=1, ge=1)
 
 
 class BFTSDebugConfig(BaseModel):
@@ -125,9 +125,9 @@ class BestFirstTreeSearchConfig(BaseSettings):
     goal: Optional[str] = None
     eval_option: Optional[str] = None
 
-    is_processed_data: bool = Field(
+    is_preprocessed_data: bool = Field(
         default=False,
-        description="Whether the data is already processed",
+        description="Whether the data is already preprocessed.",
     )
     is_copy_data: bool = Field(
         default=True,
@@ -162,7 +162,7 @@ class BestFirstTreeSearchConfig(BaseSettings):
 
     # Configuration for Pydantic settings
     model_config = SettingsConfigDict(
-        toml_file="config/best-first-tree-search.yaml",
+        yaml_file="config/best-first-tree-search.yaml",
     )
 
     @property

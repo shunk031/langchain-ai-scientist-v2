@@ -1,5 +1,5 @@
 import pathlib
-from typing import Dict, List
+from typing import Dict, List, Union
 
 import pytest
 
@@ -42,7 +42,7 @@ def test_create_idea_generation_pipeline(root_dir: pathlib.Path):
 def test_run_idea_generation(
     idea_generation_model_name: str,
     idea_reflection_model_name: str,
-    ideas: List[Dict[str, str]],
+    ideas: List[Dict[str, Union[str, List[str]]]],
     workshop_description: str,
     max_reflections: int,
 ):

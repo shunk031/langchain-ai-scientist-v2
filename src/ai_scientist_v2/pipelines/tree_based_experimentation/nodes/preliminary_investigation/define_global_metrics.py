@@ -71,7 +71,7 @@ def define_global_metrics_node(
 
     conf = AgentConfig.from_runnable_config(config)
 
-    llm = init_chat_model(
+    agent = init_chat_model(
         model=conf.code.model_name,
         temperature=conf.code.temperature,
     )
@@ -82,7 +82,7 @@ def define_global_metrics_node(
         DEFINE_GLOBAL_METRICS_PROMPT
     )
     prompt = ChatPromptTemplate.from_messages(messages=[system_prompt, human_prompt])
-    chain = prompt | llm.with_structured_output(EvaluationMetrics)
+    chain = prompt | agent.with_structured_output(EvaluationMetrics)
 
     input_dict = {
         "title": conf.idea.title,

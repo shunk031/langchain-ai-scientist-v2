@@ -1,4 +1,4 @@
-from typing import Final
+from typing import Final, Optional
 
 from langchain.chat_models import init_chat_model
 from langchain_core.messages import HumanMessage
@@ -8,6 +8,7 @@ from langchain_core.prompts import (
     SystemMessagePromptTemplate,
 )
 from langchain_core.runnables import RunnableConfig
+from pydantic import BaseModel, Field
 
 from ai_scientist_v2.pipelines.tree_based_experimentation import (
     EvaluationMetrics,
@@ -56,7 +57,28 @@ You are an AI researcher analyzing experimental results.
 
 SUMMARIZE_PROMPT: Final[str] = """\
 Please summarize the findings from this experiment iteration.
+
+{{
+    "findings": "Key findings and results.",
+    "significance": "Why these results matter.",
+    "next_steps": "(Optional) suggested improvements or next experiments.",
+}}
 """
+
+
+class NodeSummarySpec(BaseModel):
+    """Summarize experimental findings."""
+
+    findings: str = Field(
+        description="Key findings and results.",
+    )
+    significance: str = Field(
+        description="Why these results matter.",
+    )
+    next_steps: Optional[str] = Field(
+        default=None,
+        description="Suggested improvements or next experiments.",
+    )
 
 
 def generate_node_summary_node(
@@ -73,7 +95,7 @@ def generate_node_summary_node(
     prompt = ChatPromptTemplate.from_messages(
         messages=[system_prompt, human_prompt],
     )
-    chain = prompt | llm
+    chain = prompt | llm.with_structured_output(NodeSummarySpec)
 
     input_dict = {
         "research_idea": conf.idea.title,

@@ -13,19 +13,21 @@ from .preliminary_investigation import (
     generate_plotting_code_node,
     generate_substage_goal_node,
     parse_exec_result_node,
+    select_generated_plots,
 )
 
 __all__ = [
     #
     # Preliminary Investigation Nodes
     #
-    "analyze_plots_with_vlm_node",
+    "select_generated_plots",
     "create_draft_node",
     "debug_code_node",
     "define_global_metrics_node",
     "extract_metrics_node",
     "generate_plotting_code_node",
     "parse_exec_result_node",
+    "analyze_plots_with_vlm_node",
     #
     # Hyperparameter Tuning Node
     #
